@@ -6,8 +6,7 @@ import Avatar from '@atlaskit/avatar'
 import { token } from '@atlaskit/tokens'
 
 import { Flex, Text } from '#Components/Primitives'
-
-import { IChatMessage } from '#Models/chat'
+import { Model } from '#Models/chat'
 
 namespace Box {
   export const Message = styled.div`
@@ -62,11 +61,13 @@ namespace Item {
   `
 }
 
-interface Args extends Omit<Partial<IChatMessage>, 'timestamp'> {
+interface Args extends Omit<Partial<Model.Message>, 'id' | 'body'> {
   align?: 'left' | 'right'
   avatar?: string | boolean
   children?: ReactNode
   time?: string
+  name?: string
+  message?: string
 }
 
 export default function Bubble(props: Simplify<Args>) {

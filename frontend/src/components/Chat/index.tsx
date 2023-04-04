@@ -1,17 +1,26 @@
 import styled from '@emotion/styled'
 import { useAtom, useAtomValue } from 'jotai'
+import React, {
+  FC,
+  ForwardRefExoticComponent,
+  HTMLAttributes,
+  Ref,
+  forwardRef,
+} from 'react'
 
 import { token } from '@atlaskit/tokens'
 
+import { Data } from '#Atoms/chat'
 import ChatRenderer from '#Components/Chat/Renderer'
 import { messagesAtom } from '#Components/Chat/state'
 import { Flex, Stack } from '#Components/Primitives'
 
 namespace Box {
   export const Main = styled(Stack)`
-    padding-bottom: ${token('space.200')};
+    /* padding: ${token('space.300')} 0; */
     /* width: 100%; */
     gap: ${token('space.075')};
+    /* height: max-content; */
   `
 }
 
@@ -29,13 +38,30 @@ namespace Box {
 //   // `
 // }
 
-export default function Chat() {
-  const messages = useAtomValue(messagesAtom)
-  return (
-    <Box.Main>
-      {/* <ChatBubble.Group> */}
-      <ChatRenderer messages={messages ?? []} />
-      {/* </ChatBubble.Group> */}
-    </Box.Main>
-  )
-}
+// export default function Chat() {
+//   const messages = useAtomValue(Data.currentRoomChats)
+//   return (
+//     <Box.Main>
+//       {/* <ChatBubble.Group> */}
+//       <ChatRenderer messages={messages ?? []} />
+//       {/* </ChatBubble.Group> */}
+//     </Box.Main>
+//   )
+// }
+
+const Chat = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  (props, ref: Ref<HTMLDivElement>) => {
+    const { children, ...rest } = props
+    const messages = useAtomValue(Data.chats)
+    // console.log('chat', messages)
+    return (
+      <Box.Main ref={ref} {...rest}>
+        {/* <ChatBubble.Group> */}
+        <ChatRenderer messages={messages ?? []} />
+        {/* </ChatBubble.Group> */}
+      </Box.Main>
+    )
+  }
+)
+
+export default Chat

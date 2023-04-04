@@ -2,11 +2,10 @@ import dayjs from 'dayjs'
 import { Fragment } from 'react'
 
 import Bubble from '#Components/Chat/Bubble'
-
-import { IChatMessage } from '#Models/chat'
+import { Model } from '#Models/chat'
 
 interface Args {
-  messages: IChatMessage[]
+  messages: Model.Message[]
 }
 
 export default function ChatRenderer(props: Args) {
@@ -14,23 +13,23 @@ export default function ChatRenderer(props: Args) {
     <Fragment>
       {props.messages.map((message, index, arr) => {
         const prevMessage = props.messages[index - 1]
-        const currentTime = dayjs(message.timestamp)
-        const deltaTime = currentTime.diff(dayjs(prevMessage?.timestamp))
+        const currentTime = dayjs(message.created_at)
+        const deltaTime = currentTime.diff(dayjs(prevMessage?.created_at))
         const showAll =
           Number.isNaN(deltaTime) ||
           deltaTime < 0 ||
           deltaTime > 120000 ||
-          prevMessage.name !== message.name
+          prevMessage.user_id !== message.user_id
 
         return (
           <Bubble
             // align="right"
             key={index}
             avatar={showAll}
-            name={showAll ? message.name : undefined}
+            name={showAll ? message.user_id : undefined}
             time={currentTime.format('hh:mm A')}
           >
-            {message.message}
+            {message.body}
           </Bubble>
         )
       })}

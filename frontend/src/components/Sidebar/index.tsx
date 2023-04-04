@@ -8,6 +8,7 @@ import Button, { ButtonGroup } from '@atlaskit/button'
 import PremiumIcon from '@atlaskit/icon/glyph/premium'
 import { token } from '@atlaskit/tokens'
 
+import { Param } from '#Atoms/chat'
 import { Stack, Text } from '#Components/Primitives'
 
 namespace Box {
@@ -50,7 +51,7 @@ namespace Item {
   `
 
   export const RoomButton = (props: { children?: any; roomId: string }) => {
-    const [roomId] = useAtom(roomIdAtom)
+    const [roomId] = useAtom(Param.room)
     const currentRoomId = roomId === props.roomId
     return (
       <StyledButton
@@ -66,12 +67,11 @@ namespace Item {
   }
 }
 
-const roomIdAtom = atom<string | undefined>('')
 export default function Sidebar() {
-  const [_, setRoomId] = useAtom(roomIdAtom)
+  const [_, setRoomId] = useAtom(Param.room)
   const params = useParams()
   useEffect(() => {
-    setRoomId(params.roomId)
+    setRoomId((params.roomId as any) ?? 'welcome')
   })
 
   return (
