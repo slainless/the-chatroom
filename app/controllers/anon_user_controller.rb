@@ -9,7 +9,7 @@ class AnonUserController < ApplicationController
   end
 
   def get
-    render json: header_jwt.merge({ valid: header_token_valid? })
+    render json: { user_id: header_jwt["id"], valid: header_token_valid? }
   end
 
   def self.get_next_id

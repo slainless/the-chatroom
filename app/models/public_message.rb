@@ -7,8 +7,11 @@ class PublicMessage < ApplicationRecord
   end
 
   # Simple query to select from start timestamp to end timestamp
-  def self.select_by_timestamp_range(start, e)
-    self.where(created_at: start..e).order(created_at: :asc)
+  def self.select_by_timestamp_range(start, e, room_id)
+    self
+      .where(created_at: start..e)
+      .where(room_id: room_id)
+      .order(created_at: :asc)
   end
 
   # Custom query to select based on inputted cursor
@@ -29,7 +32,7 @@ class PublicMessage < ApplicationRecord
       self.bound_timestamp(cursor, room_id, rows: rows) unless direction ==
       :before
 
-    self.select_by_timestamp_range(startTime, endTime)
+    self.select_by_timestamp_range(startTime, endTime, room_id)
   end
 
   private

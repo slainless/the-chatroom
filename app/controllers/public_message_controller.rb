@@ -45,11 +45,11 @@ class PublicMessageController < ApplicationController
   end
 
   def cursor!
-    return DateTime.now unless params[:timestamp].present?
+    return DateTime.now unless params[:cursor].present?
     begin
-      time = DateTime.parse(params[:timestamp])
+      time = DateTime.parse(params[:cursor])
     rescue Date::Error
-      raise ActionController::BadRequest, "Bad timestamp!"
+      raise ActionController::BadRequest, "Bad cursor!"
     end
   end
 
