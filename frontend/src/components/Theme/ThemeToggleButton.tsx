@@ -1,11 +1,16 @@
 import styled from '@emotion/styled'
-import { useAtom } from 'jotai'
-import { RiMoonLine, RiSunLine } from 'react-icons/ri'
+import { getDefaultStore, useAtom } from 'jotai'
+import {
+  RiEmotion2Line,
+  RiHazeFill,
+  RiMoonLine,
+  RiSunLine,
+} from 'react-icons/ri'
 
 import Button from '@atlaskit/button'
 import { token } from '@atlaskit/tokens'
 
-import { colorModeAtom } from '#Components/Theme/GlobalTheme'
+import { ColorMode, colorModeAtom } from '#Components/Effect/GlobalTheme'
 
 export const IconButton = styled(Button)`
   --size: ${token('space.300')};
@@ -20,12 +25,26 @@ export const IconButton = styled(Button)`
   }
 `
 
+function switchTheme(colorMode: ColorMode): ColorMode {
+  if (colorMode == 'light') return 'dark'
+  if (colorMode == 'dark') return 'auto'
+  return 'light'
+}
+
+function Icon(props: { colorMode: ColorMode }) {
+  if (props.colorMode == 'light') return <RiSunLine />
+  if (props.colorMode == 'dark') return <RiMoonLine />
+  return <RiEmotion2Line />
+}
+
 export default function ThemeToggleButton() {
-  const [colorMode, setColorMode] = useAtom(colorModeAtom)
+  const [colorMode, setColorMode] = useAtom(colorModeAtom, {
+    store: getDefaultStore(),
+  })
   return (
     <IconButton
-      iconBefore={colorMode == 'light' ? <RiSunLine /> : <RiMoonLine />}
-      onClick={() => setColorMode(colorMode == 'light' ? 'dark' : 'light')}
+      iconBefore={<Icon colorMode={colorMode} />}
+      onClick={() => setColorMode(switchTheme(colorMode))}
     ></IconButton>
   )
 }
