@@ -30,6 +30,6 @@ module MyApi
 
     config.autoload_paths << "#{Rails.root}/lib"
     config.jwt_secret_key = "anon.user.go.brrrrr.v1"
-    config.allowed_public_rooms = %w[general ask fixed_room_id]
+    config.allowed_public_rooms = %w[welcome general ask]
   end
 end

@@ -16,18 +16,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_03_095321) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_public_messages_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "cookie_id"
-    t.string "display_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cookie_id"], name: "index_users_on_cookie_id", unique: true
-    t.index ["display_id"], name: "index_users_on_display_id", unique: true
-  end
-
-  add_foreign_key "public_messages", "users"
 end

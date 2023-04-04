@@ -6,19 +6,21 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-users =
-  (1..10).map do |i|
-    User.create(
-      id: i,
-      cookie_id: "unique_cookie_#{i}",
-      display_id: "unique_id_#{i}"
-    )
-  end
+# users =
+#   (1..10).map do |i|
+#     User.create(
+#       id: i,
+#       cookie_id: "unique_cookie_#{i}",
+#       display_id: "unique_id_#{i}"
+#     )
+#   end
+#
+#
 
 (1..100).each do |i|
   PublicMessage.create(
-    user_id: users[rand(0..9)].id,
-    room_id: "fixed_room_id",
+    user_id: rand(0..9),
+    room_id: Rails.application.config.allowed_public_rooms.sample,
     body: "body_#{i}",
     created_at: DateTime.now - (100 - i + Random.rand).hour
   )

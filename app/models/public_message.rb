@@ -1,5 +1,5 @@
 class PublicMessage < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
 
   # Create message
   def self.create_message(body, room_id:, user:)
