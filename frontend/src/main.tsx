@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import 'reflect-metadata'
 
+import GlobalTheme from '#Components/Effect/GlobalTheme'
 import Room from '#Layouts/Room'
 
 import App from './App'
@@ -17,6 +18,7 @@ const routes = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
+    <GlobalTheme />
     <RouterProvider router={routes} />
   </React.StrictMode>
 )
