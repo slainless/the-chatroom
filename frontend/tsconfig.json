@@ -9,6 +9,8 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
@@ -21,6 +23,7 @@
       "#Functions/*": ["./src/functions/*"],
       "#Models/*": ["./src/models/*"],
       "#Theme/*": ["./src/theme/*"],
+      "#Atoms/*": ["./src/atoms/*"],
       "#/*": ["./src/*"]
     }
   },

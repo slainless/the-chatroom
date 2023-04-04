@@ -5,14 +5,11 @@ module.exports = {
   "singleQuote": true,
   "plugins": [require('@trivago/prettier-plugin-sort-imports')],
   "importOrder": [
-    "^@atlaskit/(.*)$", 
-    "^#Components/(.*)$", 
-    "^#Layouts/(.*)$", 
-    "^#Functions/(.*)$", 
-    "^#Models/(.*)$", 
-    "^#/(.*)$", 
+    "^@atlaskit/(.*)$",
+    "^#\\w*/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators"],
 }

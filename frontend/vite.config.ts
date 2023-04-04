@@ -40,7 +40,7 @@ export default defineConfig(async ({ command, mode }) => {
 
   const rollupAliases = aliasTsToRollup(aliases)
   return {
-    plugins: [react()],
+    plugins: [react({ tsDecorators: true })],
     resolve: {
       alias: rollupAliases,
     },
