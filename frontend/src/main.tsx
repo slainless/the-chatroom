@@ -5,6 +5,7 @@ import 'reflect-metadata'
 
 import GlobalTheme from '#Components/Effect/GlobalTheme'
 import UserManager from '#Components/Effect/UserManager'
+import '#Functions/ws'
 import Room from '#Layouts/Room'
 
 import App from './App'

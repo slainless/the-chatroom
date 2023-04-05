@@ -82,7 +82,7 @@ export default function Sidebar() {
         <Item.RoomButton roomId="general">general</Item.RoomButton>
         <Item.RoomButton roomId="ask">ask</Item.RoomButton>
       </Box.Navi>
-      <Item.Subtitle variant="h300">Private</Item.Subtitle>
+      {/* <Item.Subtitle variant="h300">Private</Item.Subtitle> */}
     </Box.Main>
   )
 }

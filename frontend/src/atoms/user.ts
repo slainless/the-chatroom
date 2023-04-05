@@ -3,7 +3,7 @@ import { atom } from 'jotai'
 import { atomWithCache } from 'jotai-cache'
 import { atomWithStorage } from 'jotai/utils'
 
-import API from '#Functions/api'
+import Rest from '#Functions/rest'
 import { Model } from '#Models/user'
 
 const preload = () => {
@@ -20,7 +20,7 @@ export namespace Data {
 
 export namespace Action {
   export const create = atom(null, async (get, set) => {
-    const user = await API.post('user').json<Model.User>()
+    const user = await Rest.post('user').json<Model.User>()
     set(Data.user, plainToInstance(Model.User, user))
   })
 }

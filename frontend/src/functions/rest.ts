@@ -10,7 +10,7 @@ function setAuthorization(request: Request) {
   if (token) request.headers.set('Authorization', token)
 }
 
-const API = ky.extend({
+const Rest = ky.extend({
   method: 'get',
   prefixUrl: 'http://localhost:3000/api',
   hooks: {
@@ -18,4 +18,4 @@ const API = ky.extend({
   },
 })
 
-export default API
+export default Rest

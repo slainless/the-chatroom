@@ -1,17 +1,13 @@
 import styled from '@emotion/styled'
-import dayjs from 'dayjs'
-import { useImmerAtom } from 'jotai-immer'
-import { KeyboardEvent, forwardRef, useRef } from 'react'
+import { atom, getDefaultStore, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { KeyboardEvent, forwardRef, useCallback, useRef } from 'react'
 import { RiSendPlaneFill } from 'react-icons/ri'
 import { Simplify } from 'type-fest'
 
-import TextArea from '@atlaskit/textarea'
 import { token } from '@atlaskit/tokens'
 
-import { messagesAtom } from '#Components/Chat/state'
+import { Action, Param } from '#Atoms/chat'
 import { Flex, ReactIconButton } from '#Components/Primitives'
-
-import { IChatMessage } from '#Models/chat'
 
 namespace Box {
   export const Wrapper = styled(Flex)`
@@ -103,23 +99,27 @@ interface Args {
   // onAddMessage?: (added: IChatMessage, message: IChatMessage[]) => void
 }
 
+const loadingAtom = atom(false)
+
 export default function InputBar(props: Simplify<Args>) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [_, setMessages] = useImmerAtom(messagesAtom)
+  // TODO: should think of better solution
+  // how to get room atom from default database
+  const sendChat = useSetAtom(Action.sendChat, {
+    store: getDefaultStore(),
+  })
+  const [isLoading, setLoading] = useAtom(loadingAtom)
 
-  function addMessage() {
+  const send = useCallback(async () => {
     if (inputRef.current == null) return
-    setMessages((messages) => {
-      const added = {
-        name: 'Arthur',
-        message: inputRef.current!.textContent ?? '',
-        timestamp: dayjs().toISOString(),
-      }
-      messages?.push(added)
-      // props.onAddMessage?.(added, messages ?? [])
-    })
+    const body = inputRef.current.textContent
+    setLoading(true)
+    if (body == '' || body == null) return
+
+    const result = await sendChat({ body })
+    setLoading(false)
     inputRef.current.innerHTML = ''
-  }
+  }, [])
 
   return (
     <Box.Wrapper>
@@ -130,9 +130,10 @@ export default function InputBar(props: Simplify<Args>) {
           onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault()
-              addMessage()
+              send()
             }
           }}
+          isDisabled={true}
           ref={inputRef}
         />
       </Box.Input>
@@ -141,10 +142,10 @@ export default function InputBar(props: Simplify<Args>) {
         <Item.Send
           appearance="primary"
           iconBefore={<RiSendPlaneFill />}
-          onClick={() => {
-            addMessage()
-          }}
-        />
+          onClick={send}
+          isLoading={isLoading}
+          isDisabled={isLoading}
+        ></Item.Send>
       </Box.Send>
     </Box.Wrapper>
   )
