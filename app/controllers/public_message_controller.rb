@@ -20,7 +20,7 @@ class PublicMessageController < ApplicationController
         room_id: room_id,
         user_id: header_jwt["id"]
       )
-    PublicChatChannel.broadcast_to("public_chat_#{room_id}", message)
+    ActionCable.server.broadcast("public_chat_#{room_id}", message)
     render json: { message: message }
   end
 

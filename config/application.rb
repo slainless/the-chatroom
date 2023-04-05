@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 
 module MyApi
   class Application < Rails::Application
-    config.action_cable.mount_path = "/ws"
+    config.action_cable.mount_path = "/cable"
     config.action_cable.disable_request_forgery_protection = true
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
