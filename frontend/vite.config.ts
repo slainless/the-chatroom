@@ -44,5 +44,8 @@ export default defineConfig(async ({ command, mode }) => {
     resolve: {
       alias: rollupAliases,
     },
+    build: {
+      outDir: '../public',
+    },
   }
 })

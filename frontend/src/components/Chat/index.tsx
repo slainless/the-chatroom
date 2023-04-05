@@ -12,7 +12,6 @@ import { token } from '@atlaskit/tokens'
 
 import { Data } from '#Atoms/chat'
 import ChatRenderer from '#Components/Chat/Renderer'
-import { messagesAtom } from '#Components/Chat/state'
 import { Flex, Stack } from '#Components/Primitives'
 
 namespace Box {
