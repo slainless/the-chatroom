@@ -8,22 +8,15 @@ import {
   useSetAtom,
 } from 'jotai'
 import debounce from 'lodash.debounce'
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useEffect, useLayoutEffect } from 'react'
+
+import { token } from '@atlaskit/tokens'
 
 import { Action, Data, Param, stores } from '#Atoms/chat'
 import Chat from '#Components/Chat'
-import { messagesAtom } from '#Components/Chat/state'
 import Header from '#Components/Header'
 import InputBar from '#Components/InputBar'
 import { Flex, Stack } from '#Components/Primitives'
-import { token } from '#Theme/index'
 
 namespace Box {
   export const Main = styled.div`
@@ -133,6 +126,12 @@ function Main() {
     // console.log('on-cursor:', getChatRoot()?.scrollTop ?? 0)
     setScrollPos(getChatRoot()?.scrollTop ?? 0)
   }, [cursor])
+
+  const subscribed = useAtomValue(Data.subscribed)
+  useEffect(() => {
+    setScrollPos(0)
+    getChatRoot()?.scrollTo({ top: 0 })
+  }, [subscribed])
 
   return (
     <Box.Main>
