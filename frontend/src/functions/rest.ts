@@ -12,7 +12,7 @@ function setAuthorization(request: Request) {
 
 const Rest = ky.extend({
   method: 'get',
-  prefixUrl: 'http://localhost:3000/api',
+  prefixUrl: import.meta.env.API_PATH,
   hooks: {
     beforeRequest: [setAuthorization],
   },
