@@ -6,6 +6,7 @@ import Avatar from '@atlaskit/avatar'
 import { token } from '@atlaskit/tokens'
 
 import { Flex, Text } from '#Components/Primitives'
+import { generateColor } from '#Functions/theme'
 import { Model } from '#Models/chat'
 
 namespace Box {
@@ -17,6 +18,11 @@ namespace Box {
     box-shadow: ${token('elevation.shadow.raised')};
     background-color: ${token('elevation.surface')};
     position: relative;
+
+    [data-align='right'] > & {
+      background-color: ${token('color.background.accent.blue.subtlest')};
+      /* color: ${token('color.text.accent.green')}; */
+    }
   `
 
   export const Wrapper = styled(Flex)`
@@ -66,16 +72,33 @@ interface Args extends Omit<Partial<Model.Message>, 'id' | 'body'> {
   avatar?: string | boolean
   children?: ReactNode
   time?: string
-  name?: string
+  name?: string | number
   message?: string
+}
+
+const anonName = (s: string) => {
+  return '@' + s
 }
 
 export default function Bubble(props: Simplify<Args>) {
   return (
     <Box.Wrapper data-align={props.align ?? 'left'}>
-      <Box.Avatar>{props.avatar && <Avatar />}</Box.Avatar>
+      <Box.Avatar>
+        {props.avatar && (
+          <Avatar src={props.avatar === true ? undefined : props.avatar} />
+        )}
+      </Box.Avatar>
       <Box.Message>
-        {props.name && <Item.Name variant="h200">{props.name}</Item.Name>}
+        {props.name && (
+          <Item.Name
+            variant="h200"
+            style={{
+              color: generateColor(props.name + ''),
+            }}
+          >
+            {anonName(props.name + '')}
+          </Item.Name>
+        )}
         <Item.Message>
           {props.message ?? props.children}
           <Item.PseudoTime>{props.time}</Item.PseudoTime>

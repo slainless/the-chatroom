@@ -1,68 +1,57 @@
-const TOKEN_PATH_PREFIX = '--ds-'
+import { identicon, thumbs } from '@dicebear/collection'
+import { createAvatar } from '@dicebear/core'
+import hash from 'object-hash'
 
-export type TokenMap<
-  Raw extends Record<string, string>,
-  ApiPath extends string,
-  TokenPath extends string
-> = {
-  [K in Extract<keyof Raw, string> as `${ApiPath}.${K}`]: {
-    token: `${typeof TOKEN_PATH_PREFIX}-${TokenPath}-${K}`
-    value: Raw[K]
-  }
+import { token } from '@atlaskit/tokens'
+
+// export function generateColor(string: string) {
+//   const hashed = hash.MD5(string) // Convert user ID to hash value
+//   const num = parseInt(hashed.slice(0, 6), 16) / parseInt('ffffff', 16) // Convert first 6 characters of hash to a number between 0 and 1
+
+//   const brightness = 1 // Bias towards brighter colors (0 = dark, 1 = bright)
+//   const hue = num * 360 // Convert number to a hue value between 0 and 360
+//   const saturation = 0.6 // Set saturation to a fixed value
+
+//   const lightness = brightness * (0.5 - Math.abs(num - 0.5)) * 2 // Adjust lightness based on bias and distance from 0.5
+//   const color = `hsl(${hue}, ${saturation * 100}%, ${
+//     lightness * 100
+//   }%)` as const // Convert HSL values to an RGB color value
+//   return color
+// }
+
+const charts = [
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
+  'blue',
+  'purple',
+  'magenta',
+] as const
+
+const colors = charts
+  .map((color) => [
+    token(`color.chart.${color}.bold`),
+    // token(`color.chart.${color}.bolder`),
+    // token(`color.chart.${color}.boldest`),
+  ])
+  .flat()
+
+const inputCache: Record<string, any> = {}
+export function generateColor(string: string) {
+  if (string in inputCache) return colors[inputCache[string]]
+
+  let hash = 0
+  for (let i = 0; i < string.length; i++)
+    hash = string.charCodeAt(i) + ((hash << 5) - hash)
+  let index = Math.abs(hash) % colors.length
+  inputCache[string] = index
+  return colors[index]
 }
 
-export type GetAllTokenPath<T extends TokenMap<any, any, any>> = {
-  [K in Extract<keyof T, string>]: T[K] extends { token: any }
-    ? T[K]['token']
-    : never
-}
-
-export function makeTokenMap<
-  Raw extends Record<string, string>,
-  ApiPath extends string,
-  TokenPath extends string
->(apiPath: ApiPath, tokenPath: TokenPath, records: Raw) {
-  const tokens: TokenMap<Raw, ApiPath, TokenPath> = Object.create(null)
-  for (const key in records) {
-    const api = `${apiPath}.${key}` as const
-    const token = `${TOKEN_PATH_PREFIX}-${tokenPath}-${key}` as const
-    // @ts-ignore
-    tokens[api] = {
-      token: token,
-      value: records[key],
-    }
-  }
-
-  return tokens
-}
-
-export function getTokenMapPath<M extends TokenMap<any, any, any>>(
-  map: M
-): GetAllTokenPath<M> {
-  const tokenPath = Object.create(null)
-  for (const apiPath in map) {
-    // @ts-ignore
-    tokenPath[apiPath] = map[apiPath]['value']
-  }
-  return tokenPath
-}
-
-export function mergeTokenMap<M extends Record<string, string>[]>(
-  ...tokenMap: M
-): {
-  [K in M[keyof M] extends infer U
-    ? U extends Record<string, string>
-      ? keyof U
-      : never
-    : never]: M[keyof M] extends infer U
-    ? U extends Record<K, string>
-      ? U[K]
-      : never
-    : never
-} {
-  const merged = Object.create(null)
-  for (const map of tokenMap) {
-    Object.assign(merged, map)
-  }
-  return merged
+export function generateAvatar(string: string) {
+  return createAvatar(thumbs, {
+    seed: string,
+  }).toDataUriSync()
 }

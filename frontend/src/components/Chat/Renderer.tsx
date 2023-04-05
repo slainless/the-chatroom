@@ -1,7 +1,10 @@
 import dayjs from 'dayjs'
+import { useAtomValue } from 'jotai'
 import { Fragment } from 'react'
 
+import { Data } from '#Atoms/user'
 import Bubble from '#Components/Chat/Bubble'
+import { generateAvatar } from '#Functions/theme'
 import { Model } from '#Models/chat'
 
 interface Args {
@@ -9,6 +12,7 @@ interface Args {
 }
 
 export default function ChatRenderer(props: Args) {
+  const user = useAtomValue(Data.user)
   return (
     <Fragment>
       {props.messages.map((message, index, arr) => {
@@ -23,9 +27,9 @@ export default function ChatRenderer(props: Args) {
 
         return (
           <Bubble
-            // align="right"
+            align={message.user_id + '' == user?.user_id ? 'right' : 'left'}
             key={index}
-            avatar={showAll}
+            avatar={generateAvatar(message.user_id + '')}
             name={showAll ? message.user_id : undefined}
             time={currentTime.format('hh:mm A')}
           >
