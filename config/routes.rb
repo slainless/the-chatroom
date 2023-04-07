@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     post "user", to: "anon_user#create"
     get "user", to: "anon_user#get"
 
-    get "room/:room_id", to: "public_message#find"
+    get "room/:room_id", to: "public_message#find", as: "room"
     post "room/:room_id", to: "public_message#create"
   end
 end
