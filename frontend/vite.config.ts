@@ -3,6 +3,7 @@ import { parse } from 'hjson'
 import { readFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { defineConfig } from 'vite'
+import svgr from 'vite-plugin-svgr'
 
 type Aliases = Record<string, string[]>
 
@@ -40,7 +41,7 @@ export default defineConfig(async ({ command, mode }) => {
 
   const rollupAliases = aliasTsToRollup(aliases)
   return {
-    plugins: [react({ tsDecorators: true })],
+    plugins: [react({ tsDecorators: true }), svgr()],
     resolve: {
       alias: rollupAliases,
     },

@@ -22,6 +22,7 @@
       "#Layouts/*": ["./src/layouts/*"],
       "#Functions/*": ["./src/functions/*"],
       "#Models/*": ["./src/models/*"],
+      "#Assets/*": ["./src/assets/*"],
       "#Theme/*": ["./src/theme/*"],
       "#Atoms/*": ["./src/atoms/*"],
       "#/*": ["./src/*"]
