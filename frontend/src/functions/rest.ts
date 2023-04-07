@@ -12,7 +12,7 @@ function setAuthorization(request: Request) {
 
 const Rest = ky.extend({
   method: 'get',
-  prefixUrl: import.meta.env.API_PATH,
+  prefixUrl: import.meta.env.VITE_API_PATH,
   hooks: {
     beforeRequest: [setAuthorization],
   },
