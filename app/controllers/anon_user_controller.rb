@@ -4,7 +4,9 @@ class AnonUserController < ApplicationController
   include JWTAuthenticable
 
   def create
-    render json: generate_jwt(AnonUserController.get_next_id)
+    id = AnonUserController.get_next_id
+    token = generate_jwt id
+    render json: { token: token, user_id: id }
   end
 
   def get
@@ -12,6 +14,6 @@ class AnonUserController < ApplicationController
   end
 
   def self.get_next_id
-    (DateTime.now.to_f * 1000).to_i
+    (DateTime.now.to_f * 1000).to_i.to_s
   end
 end

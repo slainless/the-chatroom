@@ -9,7 +9,7 @@ module JWTAuthenticable
   # Actions
 
   def validate_token!
-    unless token_valid? header_token
+    unless valid_token? header_token
       render plain: "No authentication data found or it is invalid", status: 401
     end
   end
@@ -22,7 +22,7 @@ module JWTAuthenticable
   end
 
   def header_token_valid?
-    token_valid? header_token
+    valid_token? header_token
   end
 
   def secret_key
@@ -37,7 +37,7 @@ module JWTAuthenticable
   # ------------------------------------------------------------------
   # Token processing
 
-  def token_valid?(token)
+  def valid_token?(token)
     begin
       decode_jwt token, true
       true
@@ -60,7 +60,6 @@ module JWTAuthenticable
   end
 
   def generate_jwt(id)
-    jwt = JWT.encode ({ id: id }), secret_key, "HS256"
-    { user_id: id, token: jwt }
+    JWT.encode ({ id: id }), secret_key, "HS256"
   end
 end
