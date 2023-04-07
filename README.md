@@ -1,24 +1,22 @@
-# README
+# The Chatroom
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Idk, just a normal anonymous chatroom. Currently, only featuring public rooms. Later, will add feature to create and destroy private room.
 
-Things you may want to cover:
+## Backend
 
-* Ruby version
+Built with Rails v7. Nothing complex, consists of:
 
-* System dependencies
+- Create/read operation for chat messages. Read operation is cursor-based.
+- Simple JWT authentication.
+- Stateless user data
+- Websocket communication
 
-* Configuration
+## Frontend
 
-* Database creation
+Built with ReactJS v18.
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- `vite` as React environment.
+- UI built using Atlassian Design System (`@atlaskit`) and resources.
+- Using `@emotions` for CSS & styling solution.
+- `jotai` for state management and state action.
+- `ky` for REST communication and `@rails/action-cable` for WS communication.
