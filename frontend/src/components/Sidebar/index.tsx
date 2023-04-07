@@ -12,6 +12,7 @@ import { token } from '@atlaskit/tokens'
 import { Param } from '#Atoms/chat'
 import { Data } from '#Atoms/user'
 import { Flex, Stack, Text } from '#Components/Primitives'
+import { generateAvatar, generateColor } from '#Functions/theme'
 
 namespace Box {
   export const Main = styled.div`
@@ -109,9 +110,19 @@ export default function Sidebar() {
         </Box.Navi>
       </Box.Top>
       <Box.Bottom>
-        <Avatar presence={'online'}></Avatar>
+        <Avatar
+          presence={'online'}
+          src={user?.user_id ? generateAvatar(user.user_id) : undefined}
+        ></Avatar>
         <Box.User>
-          <Item.Name variant="h400">{user?.user_id}</Item.Name>
+          <Item.Name
+            variant="h400"
+            style={{
+              color: generateColor(`@${user?.user_id}`),
+            }}
+          >
+            @{user?.user_id}
+          </Item.Name>
           <Item.Status variant="h100">Online</Item.Status>
         </Box.User>
       </Box.Bottom>
