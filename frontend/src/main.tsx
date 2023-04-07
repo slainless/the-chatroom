@@ -7,6 +7,7 @@ import GlobalTheme from '#Components/Effect/GlobalTheme'
 import UserManager from '#Components/Effect/UserManager'
 import '#Functions/ws'
 import Room from '#Layouts/Room'
+import Welcome from '#Layouts/Welcome'
 
 import App from './App'
 
@@ -14,7 +15,10 @@ const routes = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: [{ path: 'room/:roomId', element: <Room /> }],
+    children: [
+      { index: true, element: <Welcome /> },
+      { path: 'room/:roomId', element: <Room /> },
+    ],
   },
 ])
 
