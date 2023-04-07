@@ -30,7 +30,7 @@ export default function ChatRenderer(props: Args) {
             align={message.user_id + '' == user?.user_id ? 'right' : 'left'}
             key={index}
             avatar={generateAvatar(message.user_id + '')}
-            name={showAll ? message.user_id : undefined}
+            name={showAll ? `@${message.user_id}` : undefined}
             time={currentTime.format('hh:mm A')}
           >
             {message.body}

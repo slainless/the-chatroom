@@ -76,10 +76,6 @@ interface Args extends Omit<Partial<Model.Message>, 'id' | 'body'> {
   message?: string
 }
 
-const anonName = (s: string) => {
-  return '@' + s
-}
-
 export default function Bubble(props: Simplify<Args>) {
   return (
     <Box.Wrapper data-align={props.align ?? 'left'}>
@@ -96,7 +92,7 @@ export default function Bubble(props: Simplify<Args>) {
               color: generateColor(props.name + ''),
             }}
           >
-            {anonName(props.name + '')}
+            {props.name}
           </Item.Name>
         )}
         <Item.Message>
