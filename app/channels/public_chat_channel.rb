@@ -1,5 +1,3 @@
-require_dependency "room"
-
 class PublicChatChannel < ApplicationCable::Channel
   include Room
 

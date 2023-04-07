@@ -1,6 +1,3 @@
-require_dependency "JWT_authenticable"
-require_dependency "room"
-
 class PublicMessageController < ApplicationController
   include JWTAuthenticable
   include Room

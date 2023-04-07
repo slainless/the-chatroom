@@ -1,5 +1,4 @@
 require "jwt"
-require_dependency "JWT_authenticable"
 
 class AnonUserController < ApplicationController
   include JWTAuthenticable
