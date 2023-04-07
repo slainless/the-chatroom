@@ -147,10 +147,11 @@ function Main() {
   )
 }
 
+const defaultStore = getDefaultStore()
 export default function Room() {
   const room = useAtomValue(Param.room)
   return (
-    <Provider store={stores[room]}>
+    <Provider store={room ? stores[room] : defaultStore}>
       <Main />
     </Provider>
   )
