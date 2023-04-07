@@ -15,7 +15,7 @@ export namespace Param {
   /** All cursor */
   // export const cursor = atomWithImmer<Record<string, Model.Message>>({})
   /** Indicate current room */
-  export const room = atom<RoomId>('welcome')
+  export const room = atom<RoomId | null>(null)
 }
 
 export namespace Data {
@@ -32,6 +32,8 @@ export namespace Data {
   export const query = atomWithCache(async (get) => {
     const cursor = get(Param.cursor)
     const room = get(Param.room)
+    if (room == null) return null
+
     const messages = await Rest.get(`room/${room}`, {
       searchParams: `cursor=${cursor?.created_at ?? ''}&direction=before`,
     }).json()
@@ -44,8 +46,9 @@ export namespace Action {
   /** Setter atom to load current query then append it to chat data */
   export const loadChats = atom(null, async (get, set) => {
     const query = await get(Data.query)
-    const batches = get(Data.batches)
+    if (query == null) return
 
+    const batches = get(Data.batches)
     // console.log('action:load_chat_to_batches', query, batches)
     set(Data.batches, (draft) => {
       // skip if item already inputted
