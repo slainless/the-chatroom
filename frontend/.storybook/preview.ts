@@ -1,12 +1,14 @@
 import type { Preview } from '@storybook/react'
-import { Provider, useAtom } from 'jotai'
+import { Provider, useAtom, useSetAtom } from 'jotai'
 import 'modern-normalize/modern-normalize.css'
-import React, { useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useDarkMode } from 'storybook-dark-mode'
 
 import '@atlaskit/css-reset/dist/bundle.css'
 
-import GlobalTheme, { theme } from '../src/components/GlobalTheme'
+import GlobalTheme, {
+  colorModeAtom,
+} from '../src/components/Effect/GlobalTheme'
 
 const preview: Preview = {
   parameters: {
@@ -22,8 +24,8 @@ const preview: Preview = {
 
 export function ThemeProvider({ children }: any) {
   const darkMode = useDarkMode()
-  const [_, setColorMode] = useAtom(theme)
-  useMemo(() => {
+  const setColorMode = useSetAtom(colorModeAtom)
+  useEffect(() => {
     setColorMode(darkMode ? 'dark' : 'light')
   }, [darkMode])
   return React.createElement(React.Fragment, {}, children)
@@ -31,11 +33,9 @@ export function ThemeProvider({ children }: any) {
 
 export const decorators = [
   (Story) =>
-    React.createElement(Provider, {}, [
-      React.createElement(ThemeProvider, {}, [
-        React.createElement(GlobalTheme),
-        React.createElement(Story),
-      ]),
+    React.createElement(ThemeProvider, {}, [
+      React.createElement(GlobalTheme),
+      React.createElement(Story),
     ]),
 ]
 
